@@ -1,9 +1,10 @@
 from flask import render_template, url_for, flash, redirect, request
 from cfc import app
-from cfc.forms import Signup,Login, Ref_Post
+from cfc.forms import Signup,Login, Ref_Post, SearchQuery
 from cfc.User import User, RefList
 from cfc import bcrypt, db
 from flask_login import login_user,current_user,logout_user, login_required
+from sqlalchemy import or_
 
 @app.route("/")
 @app.route("/home")
@@ -73,3 +74,14 @@ def post_ref():
         #     flash('Incorrect information filled', 'danger')
 
         return render_template('post_reference.html', form = form)
+
+
+@app.route("/references", methods = ['GET','POST'])
+def references():
+    if current_user.is_authenticated:
+        form = SearchQuery()
+        title = '%{}%'.format(form.job_title.data)
+        comp = '%{}%'.format(form.company.data)
+        query = db.session.query(RefList.job_title, RefList.company).filter(or_(RefList.job_title.like(title),RefList.company.like(comp))).all()
+
+        return render_template('references.html', form = form, query = query)

@@ -52,7 +52,10 @@ class Ref_Post(FlaskForm):
     #     if user :
     #         raise ValidationError("Email already Exists ")
 
-
+class SearchQuery(FlaskForm):
+    job_title = StringField("Job Title", validators=[DataRequired()])
+    company = StringField("Company", validators=[DataRequired()])
+    search = SubmitField('Search')
 
 
 
