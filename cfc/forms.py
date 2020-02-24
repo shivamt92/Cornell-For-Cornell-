@@ -35,6 +35,24 @@ class Login(FlaskForm):
     submit = SubmitField('Login')
 
 
+class Ref_Post(FlaskForm):
+    job_title = StringField("Job Title", validators=[DataRequired()])
+    job_des = StringField("Job Description", validators=[DataRequired()])
+    company = StringField("Company", validators=[DataRequired()])
+
+    submit = SubmitField('POST')
+
+    # def validate_netid(self,id):
+    #     user = User.query.filter_by(netid = id.data).first()
+    #     if user :
+    #         raise ValidationError("Net Id already Exists ")
+    #
+    # def validate_email(self,email):
+    #     user = User.query.filter_by(email = email.data).first()
+    #     if user :
+    #         raise ValidationError("Email already Exists ")
+
+
 
 
 

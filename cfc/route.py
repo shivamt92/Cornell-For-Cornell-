@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from cfc import app
-from cfc.forms import Signup,Login
+from cfc.forms import Signup,Login, Ref_Post
 from cfc.User import User, RefList
 from cfc import bcrypt, db
 from flask_login import login_user,current_user,logout_user, login_required
@@ -32,7 +32,7 @@ def signup():
         db.session.add(user)
         db.session.commit()
         flash('Account created for {} {}'.format(form.first_name.data,form.last_name.data), 'success')
-        return redirect(url_for('CFCProject'))
+        return redirect(url_for('login'))
     return render_template('signup.html', title = 'Signup', form = form)
 
 @app.route("/login", methods = ['GET', 'POST'])
@@ -56,3 +56,20 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('CFCProject'))
+
+
+@app.route("/post_ref", methods = ['GET', 'POST'])
+def post_ref():
+    if current_user.is_authenticated:
+
+        form = Ref_Post()
+        if form.validate_on_submit():
+            ref = RefList(job_title = form.job_title.data, job_des = form.job_des.data, company = form.company.data, ref_id = current_user.id)
+            db.session.add(ref)
+            db.session.commit()
+            flash('References posted for {} {}'.format(form.job_title.data, form.company.data), 'success')
+            return redirect(url_for('user_home'))
+        # else:
+        #     flash('Incorrect information filled', 'danger')
+
+        return render_template('post_reference.html', form = form)

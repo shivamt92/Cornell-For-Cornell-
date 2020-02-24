@@ -33,7 +33,7 @@ class RefList(db.Model):
     status = db.Column(db.String(5), nullable = False, default = 'open')
 
     def __repr__(self):
-        return "Job Title : {} Company: {} Status: {}".format(self.job_title,self.company,self.status)
+        return "Job Title : {} Company: {} Status: {} ref id : {}".format(self.job_title,self.company,self.status,self.ref_id)
 
 
 db.create_all()
