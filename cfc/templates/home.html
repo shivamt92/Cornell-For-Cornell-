@@ -28,6 +28,17 @@
 								<p>A Social Network for Cornell Students and Alumni for Industry References</p>
 							</div>
 						</div>
+						{% if current_user.is_authenticated %}
+							<nav>
+							<ul>
+<!--								<li><a href="#login">Intro</a></li>-->
+								<li><a href="{{ url_for('user_home')}}">Home</a></li>
+								<li><a href="{{ url_for('logout')}}">Logout</a></li>
+<!--								<li><a href="#contact">Contact</a></li>-->
+								<!--<li><a href="#elements">Elements</a></li>-->
+							</ul>
+						</nav>
+						{% else %}
 						<nav>
 							<ul>
 <!--								<li><a href="#login">Intro</a></li>-->
@@ -37,6 +48,8 @@
 								<!--<li><a href="#elements">Elements</a></li>-->
 							</ul>
 						</nav>
+						{% endif%}
+
 					</header>
 
 				<!-- Main -->
