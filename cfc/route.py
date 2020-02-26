@@ -4,7 +4,7 @@ from cfc.forms import Signup,Login, Ref_Post, SearchQuery
 from cfc.User import User, RefList
 from cfc import bcrypt, db
 from flask_login import login_user,current_user,logout_user, login_required
-from sqlalchemy import or_
+from sqlalchemy import or_, and_
 
 @app.route("/")
 @app.route("/home")
@@ -17,10 +17,11 @@ def about():
     return "Shivam Tewari"
 
 
-@app.route("/user_home")
+@app.route("/user_home", methods = ['GET'])
 @login_required
 def user_home():
-    return render_template('user_home.html')
+    image = url_for('static', filename ='profile_pic'+current_user.image)
+    return render_template('user_home.html', image = image)
 
 @app.route("/signup", methods = ['GET', 'POST'])
 def signup():
@@ -82,6 +83,9 @@ def references():
         form = SearchQuery()
         title = '%{}%'.format(form.job_title.data)
         comp = '%{}%'.format(form.company.data)
-        query = db.session.query(RefList.job_title, RefList.company).filter(or_(RefList.job_title.like(title),RefList.company.like(comp))).all()
+        query = db.session.query(RefList.job_title, RefList.company, RefList.ref_id).filter(and_(RefList.job_title.like(title),RefList.company.like(comp))).all()
+        Ids = []
+        for q in query:
+            Ids.append(User.query.get(q[2]).email)
 
-        return render_template('references.html', form = form, query = query)
+        return render_template('references.html', form = form, query = query, Ids = Ids)

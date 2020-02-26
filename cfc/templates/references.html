@@ -63,7 +63,7 @@
                     <tr>
                         <th>JOB TITLE</th>
                         <th>JOB DESCRIPTION</th>
-<!--                        <th>option</th>-->
+                        <th>REFEREE EMAIL</th>
                     <tr>
                 </thead>
                 <tbody>
@@ -71,6 +71,7 @@
                     <tr>
                         <td>{{ q[0] }}</td>
                         <td>{{ q[1] }}</td>
+                        <td>{{ Ids[loop.index-1] }}</td>
 
                     {% endfor %}
                 </tbody>

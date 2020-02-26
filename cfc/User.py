@@ -22,8 +22,6 @@ class User(db.Model, UserMixin):
         return "Id:{} First Name:{} Last Name:{} Email:{}".format(self.id,self.first_name,self.last_name,self.email)
 
 
-
-
 class RefList(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     job_title = db.Column(db.String(30), nullable = False)
